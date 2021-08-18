@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Input from "../layout/Input";
 import { useFirebase } from "react-redux-firebase";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   let history = useHistory();
@@ -17,8 +18,23 @@ const Login = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    await firebase.login(user);
-    history.replace("/");
+    try {
+      await firebase.login(user);
+      history.replace("/");
+      toast.success("Login Successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    } catch (error) {
+      toast.error("Invalid Email/Password!", {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   };
   return (
     <div className="container">

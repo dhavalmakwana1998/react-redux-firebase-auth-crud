@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Input from "../layout/Input";
 import { useFirestore } from "react-redux-firebase";
+import { toast } from "react-toastify";
 
 const StudentForm = () => {
   const firestore = useFirestore();
@@ -21,22 +22,21 @@ const StudentForm = () => {
 
   useEffect(() => {
     if (id) {
+      const loadStudent = async () => {
+        try {
+          const result = await docRef.get();
+          if (result.exists) {
+            setStudent(result.data());
+          } else {
+            console.log("No such document!");
+          }
+        } catch (error) {
+          console.log("Error getting document:", error);
+        }
+      };
       loadStudent();
     }
   }, [id]);
-
-  const loadStudent = async () => {
-    try {
-      const result = await docRef.get();
-      if (result.exists) {
-        setStudent(result.data());
-      } else {
-        console.log("No such document!");
-      }
-    } catch (error) {
-      console.log("Error getting document:", error);
-    }
-  };
 
   const onInputChange = (e) => {
     setStudent({ ...student, [e.target.name]: e.target.value });
@@ -45,23 +45,35 @@ const StudentForm = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     if (id) {
-      // update student
+      // update Data
       try {
         await docRef.update({
           ...student,
           updatedAt: firestore.FieldValue.serverTimestamp(),
         });
-        console.log("Document successfully updated!");
+        history.push("/");
+        toast.warning("Updated Successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          pauseOnHover: true,
+          draggable: true,
+        });
       } catch (error) {
         console.error("Error updating document: ", error);
       }
     } else {
-      // add new student
+      // add new Data
       firestore
         .collection("dmak")
         .add({ ...student, createdAt: firestore.FieldValue.serverTimestamp() });
+      history.push("/");
+      toast.success("Created Successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
-    history.push("/");
   };
   return (
     <div className="container">

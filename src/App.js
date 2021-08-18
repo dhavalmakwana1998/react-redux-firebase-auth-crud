@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles/App.scss";
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Students from "./components/students/Students";
@@ -11,10 +12,12 @@ import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import Login from "./components/pages/Login";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import NotFound from "./components/pages/NotFound";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <Provider store={store}>
+      <ToastContainer />
       <ReactReduxFirebaseProvider {...rrfProps}>
         <BrowserRouter>
           <div className="App">

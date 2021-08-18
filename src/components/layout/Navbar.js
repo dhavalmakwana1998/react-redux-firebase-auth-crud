@@ -23,7 +23,7 @@ const Navbar = () => {
           <ul className="navbar-nav mr-auto"></ul>
           <ul className="navbar-nav align-items-center">
             <li className="nav-item">
-              <Link to="/studentForm" className="btn btn-primary mr-3">
+              <Link to="/studentForm" className="text-primary mr-3">
                 Add Student
               </Link>
             </li>
@@ -38,15 +38,12 @@ const Navbar = () => {
                   src={require("../../assets/admin.jpg")}
                   alt="admin"
                   height="30"
+                  className="rounded-circle"
                 />
                 <span className="ml-2 navbar-text">Dhaval Mak</span>
               </a>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a
-                  className="dropdown-item"
-                  href="!#"
-                  onClick={() => firebase.logout()}
-                >
+                <a className="dropdown-item" onClick={() => firebase.logout()}>
                   Logout
                 </a>
               </div>

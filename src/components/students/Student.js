@@ -10,21 +10,22 @@ const Student = () => {
   const [student, setStudent] = useState(null);
 
   useEffect(() => {
-    loadStudent();
-  }, []);
-  const loadStudent = async () => {
-    try {
-      const docRef = firestore.collection("dmak").doc(id);
-      const result = await docRef.get();
-      if (result.exists) {
-        setStudent(result.data());
-      } else {
-        console.log("No such document!");
+    const loadStudent = async () => {
+      try {
+        const docRef = firestore.collection("dmak").doc(id);
+        const result = await docRef.get();
+        if (result.exists) {
+          setStudent(result.data());
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.log("Error getting document:", error);
       }
-    } catch (error) {
-      console.log("Error getting document:", error);
-    }
-  };
+    };
+    loadStudent();
+  }, [id, firestore]);
+
   if (student == null) {
     return <Loading />;
   }

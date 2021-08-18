@@ -2,11 +2,11 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <div className="loading">
+    <div className="loading bg-primary">
       <div
-        className="spinner-border text-primary"
+        className="spinner-grow text-warning"
         role="status"
-        style={{ width: "150px", height: "150px" }}
+        style={{ width: "100px", height: "100px" }}
       >
         <span className="sr-only">Loading...</span>
       </div>

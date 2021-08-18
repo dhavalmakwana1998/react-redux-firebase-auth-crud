@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useFirestore } from "react-redux-firebase";
 import { useFirestoreConnect } from "react-redux-firebase";
 import Loading from "../layout/Loading";
+import { toast } from "react-toastify";
 
 const Students = () => {
   useFirestoreConnect([{ collection: "dmak", orderBy: ["createdAt", "desc"] }]);
@@ -18,9 +19,20 @@ const Students = () => {
 
   const deleteStudent = async (id) => {
     try {
-      await firestore.collection("students").doc(id).delete();
+      await firestore.collection("dmak").doc(id).delete();
+      toast.success("Delete Successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } catch (error) {
-      console.error("Error removing document: ", error);
+      toast.error("Somthing went wrong!", {
+        position: "top-right",
+        autoClose: 3000,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -41,18 +53,18 @@ const Students = () => {
                   >
                     View Profile
                   </Link>
+                  <Link
+                    to={`/studentForm/${student.id}`}
+                    className="p-2 btn-edit text-warning"
+                  >
+                    <span className="material-icons">edit_outline</span>
+                  </Link>
                   <button
                     className="btn btn-delete text-danger"
                     onClick={() => deleteStudent(student.id)}
                   >
                     <span className="material-icons">delete_outline</span>
                   </button>
-                  <Link
-                    to={`/studentForm/${student.id}`}
-                    className="btn btn-edit text-warning"
-                  >
-                    <span className="material-icons">edit_outline</span>
-                  </Link>
                 </div>
               </div>
             </div>
